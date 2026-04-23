@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cold Source | Open Source Engine Evolution</title>
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             --bg-dark: #0b0e14;
             --accent-blue: #4fc3f7;
@@ -14,6 +23,7 @@
             --border-glass: rgba(255, 255, 255, 0.1);
             --text-main: #e0e0e0;
             --text-dim: #9e9e9e;
+            --card-hover: rgba(79, 195, 247, 0.08);
         }
 
         body {
@@ -25,91 +35,195 @@
             overflow-x: hidden;
         }
 
-        /* Фоновый эффект */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%);
+            background: radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(0deg, rgba(79, 195, 247, 0.02) 0px, rgba(79, 195, 247, 0.02) 1px, transparent 1px, transparent 40px);
+            pointer-events: none;
             z-index: -1;
         }
 
         header {
-            padding: 2rem 10%;
+            padding: 1.2rem 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 100;
             border-bottom: 1px solid var(--border-glass);
+            background: rgba(11, 14, 20, 0.85);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo {
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             letter-spacing: 2px;
             text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 20%, var(--accent-blue) 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            font-size: 1.7rem;
             color: var(--accent-blue);
+            background: none;
+            -webkit-background-clip: unset;
+        }
+
+        .nav-group {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
         }
 
         nav a {
-            margin-left: 2rem;
             text-decoration: none;
             color: var(--text-dim);
-            transition: 0.3s;
-            font-size: 0.9rem;
+            transition: 0.25s;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        nav a:hover { color: var(--accent-blue); }
+        nav a i { font-size: 0.9rem; }
+        nav a:hover { color: var(--accent-blue); transform: translateY(-1px); }
 
-        /* Hero Section */
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.3rem 0.6rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--border-glass);
+        }
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            font-weight: 500;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn i { margin-right: 4px; font-size: 0.7rem; }
+        .lang-btn.active {
+            background: var(--accent-blue);
+            color: #0a0c12;
+            box-shadow: 0 0 6px rgba(79,195,247,0.4);
+        }
+        .lang-btn:hover:not(.active) {
+            background: rgba(79,195,247,0.15);
+            color: var(--accent-blue);
+        }
+
         .hero {
-            padding: 8rem 10% 4rem;
+            padding: 7rem 10% 5rem;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(to bottom, #fff 30%, var(--accent-blue));
+            font-size: 4.2rem;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(to bottom, #ffffff 20%, var(--accent-blue) 75%);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero h1 i {
+            background: none;
+            color: var(--accent-blue);
+            font-size: 3rem;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: var(--text-dim);
-            max-width: 700px;
-            margin: 0 auto 2rem;
+            max-width: 720px;
+            margin: 0 auto 2.2rem;
         }
 
         .cta-buttons {
             display: flex;
             justify-content: center;
             gap: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 0.8rem 2rem;
-            border-radius: 4px;
+            padding: 0.85rem 2rem;
+            border-radius: 40px;
             text-decoration: none;
             font-weight: 600;
-            transition: 0.3s;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
         }
 
-        .btn-primary { background: var(--accent-blue); color: #000; }
-        .btn-secondary { border: 1px solid var(--border-glass); color: #fff; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(79, 195, 247, 0.2); }
+        .btn-primary { background: var(--accent-blue); color: #0a0c12; box-shadow: 0 4px 12px rgba(79, 195, 247, 0.25); }
+        .btn-secondary { border: 1px solid var(--border-glass); color: #fff; background: rgba(255,255,255,0.02); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 22px rgba(79, 195, 247, 0.28); }
+        .btn-primary:hover { background: #3bb5e6; color: #000; }
+        .btn-secondary:hover { border-color: var(--accent-blue); background: rgba(79,195,247,0.1); }
 
-        /* Grid Section */
         .section-title {
             padding: 4rem 10% 1rem;
             text-align: left;
-            font-size: 1.8rem;
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
             border-bottom: 1px solid var(--border-glass);
             margin: 0 10% 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            font-size: 1.8rem;
+            color: var(--accent-blue);
         }
 
         .grid {
@@ -122,116 +236,328 @@
         .card {
             background: var(--glass);
             border: 1px solid var(--border-glass);
-            padding: 2rem;
-            border-radius: 8px;
-            transition: 0.3s;
+            padding: 2rem 1.8rem;
+            border-radius: 24px;
+            transition: 0.25s;
+            backdrop-filter: blur(4px);
         }
 
         .card:hover {
             border-color: var(--accent-blue);
-            background: rgba(255,255,255,0.05);
+            background: var(--card-hover);
+            transform: translateY(-4px);
         }
 
         .card i {
-            font-size: 2rem;
+            font-size: 2.4rem;
             color: var(--accent-blue);
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            display: inline-block;
         }
 
-        .card h3 { margin-bottom: 0.5rem; }
-        .card p { color: var(--text-dim); font-size: 0.95rem; }
+        .card h3 { 
+            font-size: 1.4rem; 
+            font-weight: 600; 
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-        /* Workflow Section */
+        .card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; }
+
         .workflow {
-            margin: 4rem 10%;
-            padding: 3rem;
+            margin: 2rem 10% 5rem;
+            padding: 2.5rem 3rem;
             background: linear-gradient(135deg, #0f172a 0%, #0b0e14 100%);
-            border-radius: 12px;
+            border-radius: 32px;
             border-left: 4px solid var(--accent-blue);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
         }
 
-        .workflow code {
-            background: rgba(0,0,0,0.3);
-            padding: 0.2rem 0.5rem;
-            color: var(--accent-blue);
+        .workflow h3 {
+            font-size: 1.5rem;
+            margin-top: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
+
+        .workflow h3:first-of-type { margin-top: 0; }
+        .workflow h3 i { color: var(--accent-blue); font-size: 1.5rem; width: 1.8rem; }
+        .workflow code { background: rgba(0, 0, 0, 0.5); padding: 0.2rem 0.6rem; border-radius: 8px; font-family: monospace; color: var(--accent-blue); font-size: 0.9rem; }
+        .workflow ul { margin: 1rem 0 0 0; padding-left: 0; }
+        .workflow li { margin: 0.6rem 0; display: flex; align-items: center; gap: 10px; list-style: none; }
+        .workflow li i { width: 24px; color: var(--accent-blue); font-size: 0.9rem; }
 
         footer {
-            padding: 4rem 10%;
+            padding: 3rem 10%;
             text-align: center;
             border-top: 1px solid var(--border-glass);
             color: var(--text-dim);
             font-size: 0.9rem;
         }
 
-        .tag {
-            font-size: 0.7rem;
-            background: var(--accent-blue);
-            color: #000;
-            padding: 2px 6px;
-            border-radius: 3px;
-            vertical-align: middle;
-            margin-left: 5px;
+        .quote-icon { font-size: 1.1rem; color: var(--accent-blue); margin-bottom: 0.8rem; opacity: 0.8; }
+        .tag { font-size: 0.7rem; background: var(--accent-blue); color: #000; padding: 2px 8px; border-radius: 40px; vertical-align: middle; margin-left: 8px; font-weight: 600; }
+
+        @media (max-width: 860px) {
+            header { flex-direction: column; align-items: stretch; padding: 1rem 5%; }
+            .nav-group { justify-content: space-between; }
+            .hero { padding: 4rem 5% 3rem; }
+            .hero h1 { font-size: 2.7rem; }
+            .section-title { margin: 0 5% 1.5rem; padding: 2rem 0 0.5rem; }
+            .grid, .workflow { padding-left: 5%; padding-right: 5%; margin-left: 0; margin-right: 0; width: auto; }
+            .workflow { margin: 2rem 5%; padding: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">COLD SOURCE</div>
-    <nav>
-        <a href="https://cold-source.org">Документация</a>
-        <a href="https://github.com/Cold-Source">GitHub</a>
-        <a href="https://discord.gg">Discord</a>
-    </nav>
+    <div class="logo">
+        <i class="fas fa-microchip"></i> 
+        <span id="logo-text">COLD SOURCE</span>
+    </div>
+    <div class="nav-group">
+        <nav>
+            <a href="https://github.com/Cold-Source" id="nav-docs"><i class="fas fa-book-open"></i> <span>Документация</span></a>
+            <a href="https://github.com/Cold-Source" id="nav-gh"><i class="fab fa-github"></i> <span>GitHub</span></a>
+            <a href="https://discord.gg/heJjW95Dqj" id="nav-dc"><i class="fab fa-discord"></i> <span>Discord</span></a>
+        </nav>
+        <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="ru"><i class="fas fa-flag"></i> RU</button>
+            <button class="lang-btn" data-lang="en"><i class="fas fa-globe"></i> EN</button>
+            <button class="lang-btn" data-lang="zh"><i class="fas fa-language"></i> 中文</button>
+        </div>
+    </div>
 </header>
 
 <section class="hero">
-    <h1>Evolve the Engine.</h1>
-    <p>Cold Source — это сообщество, развивающее экосистему Source SDK через открытые инновации и современные инструменты разработки.</p>
+    <h1 id="hero-title">
+        <i class="fas fa-cogs"></i> 
+        <span>Evolve the Engine.</span>
+    </h1>
+    <p id="hero-desc">Cold Source — это сообщество, развивающее экосистему Source SDK через открытые инновации и современные инструменты разработки.</p>
     <div class="cta-buttons">
-        <a href="#" class="btn btn-primary">Начать разработку</a>
-        <a href="#" class="btn btn-secondary">Wiki движка</a>
+        <a href="#" class="btn btn-primary" id="cta-start"><i class="fas fa-code-branch"></i> <span>Начать разработку</span></a>
+        <a href="#" class="btn btn-secondary" id="cta-wiki"><i class="fas fa-glasses"></i> <span>Wiki движка (скоро)</span></a>
     </div>
 </section>
 
-<div class="section-title">Экосистема и ресурсы</div>
+<div class="section-title" id="section-eco-title">
+    <i class="fas fa-cube"></i> 
+    <span>Экосистема и ресурсы</span>
+</div>
 <section class="grid">
     <div class="card">
         <i class="fas fa-bug"></i>
-        <h3>Issue Tracker</h3>
-        <p>Центральный хаб для отчетов об ошибках и обсуждения новых фич движка.</p>
+        <h3 id="card1-title">Issue Tracker <span class="tag">Community</span></h3>
+        <p id="card1-desc">Центральный хаб для отчетов об ошибках и обсуждения новых фич движка. Участвуй в баг-трекинге и помогай делать Cold Source стабильнее.</p>
     </div>
     <div class="card">
         <i class="fas fa-book"></i>
-        <h3>Technical Docs</h3>
-        <p>Глубокое погружение в модифицированные ветки ядра и руководства по внедрению.</p>
+        <h3 id="card2-title">Technical Docs</h3>
+        <p id="card2-desc">Глубокое погружение в модифицированные ветки ядра и руководства по внедрению. API, инструменты сборки и архитектура движка.</p>
     </div>
     <div class="card">
         <i class="fas fa-paint-brush"></i>
-        <h3>Branding & Assets</h3>
-        <p>Официальные логотипы и гайдлайны для проектов на базе Cold Source.</p>
+        <h3 id="card3-title">Branding & Assets</h3>
+        <p id="card3-desc">Официальные логотипы и гайдлайны для проектов на базе Cold Source. Визуальный язык экосистемы и ресурсы для студий.</p>
     </div>
 </section>
 
-<div class="section-title">Правила контрибьютинга</div>
+<div class="section-title" id="section-contrib-title">
+    <i class="fas fa-code-pull-request"></i> 
+    <span>Правила контрибьютинга</span>
+</div>
 <section class="workflow">
-    <h3>1. Rebase-Only Workflow</h3>
-    <p>Мы поддерживаем чистую линейную историю. Никаких «merge commits». Если вы новичок в <code>git rebase</code>, наши мейнтейнеры помогут вам подготовить PR.</p>
+    <h3 id="workflow1-title"><i class="fas fa-code-branch"></i> <span>1. Rebase-Only Workflow</span></h3>
+    <p id="workflow1-desc">Мы поддерживаем чистую линейную историю. Никаких «merge commits». Если вы новичок в <code>git rebase</code>, наши мейнтейнеры помогут вам подготовить PR.</p>
     
-    <h3>2. Meaningful Commits</h3>
-    <p>Мы используем <b>Conventional Commits</b>:</p>
+    <h3 id="workflow2-title"><i class="fas fa-git-alt"></i> <span>2. Meaningful Commits</span></h3>
+    <p id="workflow2-desc">Мы используем <b>Conventional Commits</b> как стандарт для автоматической генерации changelog:</p>
     <ul style="list-style: none; padding: 0;">
-        <li><code>feat:</code> — новый функционал</li>
-        <li><code>fix:</code> — исправление ошибок</li>
-        <li><code>refactor:</code> — оптимизация кода</li>
+        <li id="li-feat"><i class="fas fa-star-of-life"></i> <code>feat:</code> — новый функционал</li>
+        <li id="li-fix"><i class="fas fa-tools"></i> <code>fix:</code> — исправление ошибок</li>
+        <li id="li-refactor"><i class="fas fa-chart-line"></i> <code>refactor:</code> — оптимизация кода</li>
+        <li id="li-docs"><i class="fas fa-check-circle"></i> <code>docs:</code> / <code>test:</code> — документация и тесты</li>
     </ul>
+    <p id="workflow-footnote" style="margin-top: 1rem;"><i class="fas fa-hand-peace"></i> Каждый PR проходит code review и автоматические проверки CI.</p>
 </section>
 
 <footer>
-    <p>“Amplify working with Source SDK and open-source projects.”</p>
-    <p>&copy; 2024 Cold Source Organization. Все права защищены.</p>
+    <div class="quote-icon">
+        <i class="fas fa-quote-left"></i> <i class="fas fa-quote-right"></i>
+    </div>
+    <p id="footer-quote"><i class="fas fa-microphone-alt"></i> “Amplify working with Source SDK and open-source projects.”</p>
+    <p id="footer-copyright" style="margin-top: 1rem;">
+        <i class="far fa-copyright"></i> 2024 Cold Source Organization. Все права защищены. 
+        <i class="fab fa-github"></i> <i class="fab fa-discord"></i> <i class="fas fa-code"></i>
+    </p>
 </footer>
 
+<script>
+    // Мультиязычный словарь (ru, en, zh)
+    const translations = {
+        ru: {
+            logo: "COLD SOURCE",
+            nav_docs: "Документация",
+            nav_github: "GitHub",
+            nav_discord: "Discord",
+            hero_title: "Evolve the Engine.",
+            hero_desc: "Cold Source — это сообщество, развивающее экосистему Source SDK через открытые инновации и современные инструменты разработки.",
+            cta_start: "Начать разработку",
+            cta_wiki: "Wiki движка (coming soon)",
+            section_eco: "Экосистема и ресурсы",
+            section_contrib: "Правила контрибьютинга",
+            card1_title: "Issue Tracker",
+            card1_desc: "Центральный хаб для отчетов об ошибках и обсуждения новых фич движка. Участвуй в баг-трекинге и помогай делать Cold Source стабильнее.",
+            card2_title: "Technical Docs",
+            card2_desc: "Глубокое погружение в модифицированные ветки ядра и руководства по внедрению. API, инструменты сборки и архитектура движка.",
+            card3_title: "Branding & Assets",
+            card3_desc: "Официальные логотипы и гайдлайны для проектов на базе Cold Source. Визуальный язык экосистемы и ресурсы для студий.",
+            workflow1_title: "1. Rebase-Only Workflow",
+            workflow1_desc: "Мы поддерживаем чистую линейную историю. Никаких «merge commits». Если вы новичок в git rebase, наши мейнтейнеры помогут вам подготовить PR.",
+            workflow2_title: "2. Meaningful Commits",
+            workflow2_desc: "Мы используем Conventional Commits как стандарт для автоматической генерации changelog:",
+            feat: "новый функционал",
+            fix: "исправление ошибок",
+            refactor: "оптимизация кода",
+            docs: "документация и тесты",
+            workflow_footnote: "Каждый PR проходит code review и автоматические проверки CI.",
+            footer_quote: "“Amplify working with Source SDK and open-source projects.”",
+            footer_copyright: "2026 Cold Source Organization. Все права не защищены."
+        },
+        en: {
+            logo: "COLD SOURCE",
+            nav_docs: "Documentation",
+            nav_github: "GitHub",
+            nav_discord: "Discord",
+            hero_title: "Evolve the Engine.",
+            hero_desc: "Cold Source is a community evolving the Source SDK ecosystem through open innovation and modern development tools.",
+            cta_start: "Start Building",
+            cta_wiki: "Engine Wiki (coming soon)",
+            section_eco: "Ecosystem & Resources",
+            section_contrib: "Contribution Guidelines",
+            card1_title: "Issue Tracker",
+            card1_desc: "Central hub for bug reports and feature discussions. Join the bug tracking and help make Cold Source more stable.",
+            card2_title: "Technical Docs",
+            card2_desc: "Deep dive into modified kernel branches and integration guides. API, build tools, and engine architecture.",
+            card3_title: "Branding & Assets",
+            card3_desc: "Official logos and guidelines for Cold Source based projects. Visual identity and studio resources.",
+            workflow1_title: "1. Rebase-Only Workflow",
+            workflow1_desc: "We maintain a clean linear history. No merge commits. If you're new to git rebase, our maintainers will help you prepare your PR.",
+            workflow2_title: "2. Meaningful Commits",
+            workflow2_desc: "We use Conventional Commits as a standard for automatic changelog generation:",
+            feat: "new feature",
+            fix: "bug fixes",
+            refactor: "code optimization",
+            docs: "documentation & tests",
+            workflow_footnote: "Every PR goes through code review and automated CI checks.",
+            footer_quote: "“Amplify working with Source SDK and open-source projects.”",
+            footer_copyright: "2026 Cold Source Organization. All rights no reserved."
+        },
+        zh: {
+            logo: "COLD SOURCE",
+            nav_docs: "文档",
+            nav_github: "GitHub",
+            nav_discord: "Discord",
+            hero_title: "进化引擎。",
+            hero_desc: "Cold Source 是一个通过开放创新和现代开发工具发展 Source SDK 生态系统的社区。",
+            cta_start: "开始开发",
+            cta_wiki: "引擎维基 (coming soon)",
+            section_eco: "生态系统与资源",
+            section_contrib: "贡献指南",
+            card1_title: "问题追踪",
+            card1_desc: "错误报告和新功能讨论的中心枢纽。参与问题跟踪，帮助 Cold Source 更稳定。",
+            card2_title: "技术文档",
+            card2_desc: "深入修改的内核分支和集成指南。API、构建工具和引擎架构。",
+            card3_title: "品牌与资产",
+            card3_desc: "基于 Cold Source 项目的官方标志和指南。视觉语言和工作室资源。",
+            workflow1_title: "1. 仅变基工作流",
+            workflow1_desc: "我们保持干净的线性历史记录。没有合并提交。如果您是 git rebase 的新手，我们的维护者将帮助您准备 PR。",
+            workflow2_title: "2. 有意义的提交",
+            workflow2_desc: "我们使用 Conventional Commits 作为自动生成变更日志的标准：",
+            feat: "新功能",
+            fix: "错误修复",
+            refactor: "代码优化",
+            docs: "文档和测试",
+            workflow_footnote: "每个 PR 都经过代码审查和自动化 CI 检查。",
+            footer_quote: "“增强 Source SDK 和开源项目的协作。”",
+            footer_copyright: "2026 Cold Source 组织。保留所有权利。"
+        }
+    };
+
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+        if (!translations[lang]) return;
+        currentLang = lang;
+        const t = translations[lang];
+
+        // Логотип
+        document.getElementById('logo-text').innerText = t.logo;
+        // Навигация
+        document.getElementById('nav-docs').querySelector('span').innerText = t.nav_docs;
+        document.getElementById('nav-gh').querySelector('span').innerText = t.nav_github;
+        document.getElementById('nav-dc').querySelector('span').innerText = t.nav_discord;
+        // Hero
+        const heroTitleSpan = document.querySelector('#hero-title span');
+        if (heroTitleSpan) heroTitleSpan.innerText = t.hero_title;
+        document.getElementById('hero-desc').innerText = t.hero_desc;
+        document.querySelector('#cta-start span').innerText = t.cta_start;
+        document.querySelector('#cta-wiki span').innerText = t.cta_wiki;
+        // Секции заголовки
+        document.querySelector('#section-eco-title span').innerText = t.section_eco;
+        document.querySelector('#section-contrib-title span').innerText = t.section_contrib;
+        // Карточки
+        const card1Title = document.getElementById('card1-title');
+        card1Title.childNodes[0].nodeValue = t.card1_title + ' ';
+        document.getElementById('card1-desc').innerText = t.card1_desc;
+        document.getElementById('card2-title').innerText = t.card2_title;
+        document.getElementById('card2-desc').innerText = t.card2_desc;
+        document.getElementById('card3-title').innerText = t.card3_title;
+        document.getElementById('card3-desc').innerText = t.card3_desc;
+        // Workflow
+        document.querySelector('#workflow1-title span').innerText = t.workflow1_title;
+        document.getElementById('workflow1-desc').innerHTML = t.workflow1_desc.replace('git rebase', '<code>git rebase</code>');
+        document.querySelector('#workflow2-title span').innerText = t.workflow2_title;
+        document.getElementById('workflow2-desc').innerHTML = t.workflow2_desc.replace('Conventional Commits', '<b>Conventional Commits</b>');
+        // Список коммитов (меняем текст после code)
+        const liFeat = document.getElementById('li-feat');
+        liFeat.innerHTML = `<i class="fas fa-star-of-life"></i> <code>feat:</code> — ${t.feat}`;
+        const liFix = document.getElementById('li-fix');
+        liFix.innerHTML = `<i class="fas fa-tools"></i> <code>fix:</code> — ${t.fix}`;
+        const liRefactor = document.getElementById('li-refactor');
+        liRefactor.innerHTML = `<i class="fas fa-chart-line"></i> <code>refactor:</code> — ${t.refactor}`;
+        const liDocs = document.getElementById('li-docs');
+        liDocs.innerHTML = `<i class="fas fa-check-circle"></i> <code>docs:</code> / <code>test:</code> — ${t.docs}`;
+        document.getElementById('workflow-footnote').innerHTML = `<i class="fas fa-hand-peace"></i> ${t.workflow_footnote}`;
+        // Footer
+        document.getElementById('footer-quote').innerHTML = `<i class="fas fa-microphone-alt"></i> ${t.footer_quote}`;
+        document.getElementById('footer-copyright').innerHTML = `<i class="far fa-copyright"></i> ${t.footer_copyright} <i class="fab fa-github"></i> <i class="fab fa-discord"></i> <i class="fas fa-code"></i>`;
+        
+        // Обновляем активную кнопку языка
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if (btn.getAttribute('data-lang') === lang) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    // Обработчики для кнопок языка
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const lang = btn.getAttribute('data-lang');
+            setLanguage(lang);
+        });
+    });
+
+    setLanguage('en');
+</script>
 </body>
 </html>
