@@ -3,61 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пример Моего Сайта</title>
+    <title>Cold Source | Open Source Engine Evolution</title>
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
-        /* Основные стили */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; line-height: 1.6; color: #333; }
-        header { background: #2c3e50; color: white; padding: 1rem 0; text-align: center; position: sticky; top: 0; }
-        
-        /* Секция "Герой" (Hero) */
-        .hero { background: #3498db; color: white; padding: 100px 20px; text-align: center; }
-        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
-        
-        /* Секция контента */
-        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
-        .features { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 40px; }
-        .feature-box { flex: 1; min-width: 250px; background: #f4f4f4; padding: 20px; border-radius: 8px; text-align: center; }
-        
-        /* Подвал */
-        footer { background: #2c3e50; color: white; text-align: center; padding: 20px 0; margin-top: 40px; }
-        
-        /* Кнопка */
-        .btn { background: #e74c3c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 20px; }
-        .btn:hover { background: #c0392b; }
+        :root {
+            --bg-dark: #0b0e14;
+            --accent-blue: #4fc3f7;
+            --deep-blue: #1a237e;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --text-main: #e0e0e0;
+            --text-dim: #9e9e9e;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Фоновый эффект */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% -20%, #1e3a5f 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        header {
+            padding: 2rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+        }
+
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--text-dim);
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover { color: var(--accent-blue); }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 10% 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to bottom, #fff 30%, var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-primary { background: var(--accent-blue); color: #000; }
+        .btn-secondary { border: 1px solid var(--border-glass); color: #fff; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(79, 195, 247, 0.2); }
+
+        /* Grid Section */
+        .section-title {
+            padding: 4rem 10% 1rem;
+            text-align: left;
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--border-glass);
+            margin: 0 10% 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 10% 4rem;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border-glass);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent-blue);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .card i {
+            font-size: 2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .card h3 { margin-bottom: 0.5rem; }
+        .card p { color: var(--text-dim); font-size: 0.95rem; }
+
+        /* Workflow Section */
+        .workflow {
+            margin: 4rem 10%;
+            padding: 3rem;
+            background: linear-gradient(135deg, #0f172a 0%, #0b0e14 100%);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .workflow code {
+            background: rgba(0,0,0,0.3);
+            padding: 0.2rem 0.5rem;
+            color: var(--accent-blue);
+        }
+
+        footer {
+            padding: 4rem 10%;
+            text-align: center;
+            border-top: 1px solid var(--border-glass);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            background: var(--accent-blue);
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <nav><strong>Мой Лендинг</strong> | Услуги | Отзывы | Контакты</nav>
+    <div class="logo">COLD SOURCE</div>
+    <nav>
+        <a href="https://cold-source.org">Документация</a>
+        <a href="https://github.com/Cold-Source">GitHub</a>
+        <a href="https://discord.gg">Discord</a>
+    </nav>
 </header>
 
-<div class="hero">
-    <h1>Добро пожаловать!</h1>
-    <p>Это пример простого и чистого сайта, созданного специально для вас.</p>
-    <a href="#" class="btn">Узнать больше</a>
-</div>
-
-<div class="container">
-    <h2 style="text-align: center;">Что мы предлагаем</h2>
-    <div class="features">
-        <div class="feature-box">
-            <h3>Быстрый старт</h3>
-            <p>Ваш проект запустится в кратчайшие сроки без лишних хлопот.</p>
-        </div>
-        <div class="feature-box">
-            <h3>Современный дизайн</h3>
-            <p>Мы используем только свежие тренды и удобные интерфейсы.</p>
-        </div>
-        <div class="feature-box">
-            <h3>Поддержка 24/7</h3>
-            <p>Мы всегда на связи, чтобы помочь вам в любую минуту.</p>
-        </div>
+<section class="hero">
+    <h1>Evolve the Engine.</h1>
+    <p>Cold Source — это сообщество, развивающее экосистему Source SDK через открытые инновации и современные инструменты разработки.</p>
+    <div class="cta-buttons">
+        <a href="#" class="btn btn-primary">Начать разработку</a>
+        <a href="#" class="btn btn-secondary">Wiki движка</a>
     </div>
-</div>
+</section>
+
+<div class="section-title">Экосистема и ресурсы</div>
+<section class="grid">
+    <div class="card">
+        <i class="fas fa-bug"></i>
+        <h3>Issue Tracker</h3>
+        <p>Центральный хаб для отчетов об ошибках и обсуждения новых фич движка.</p>
+    </div>
+    <div class="card">
+        <i class="fas fa-book"></i>
+        <h3>Technical Docs</h3>
+        <p>Глубокое погружение в модифицированные ветки ядра и руководства по внедрению.</p>
+    </div>
+    <div class="card">
+        <i class="fas fa-paint-brush"></i>
+        <h3>Branding & Assets</h3>
+        <p>Официальные логотипы и гайдлайны для проектов на базе Cold Source.</p>
+    </div>
+</section>
+
+<div class="section-title">Правила контрибьютинга</div>
+<section class="workflow">
+    <h3>1. Rebase-Only Workflow</h3>
+    <p>Мы поддерживаем чистую линейную историю. Никаких «merge commits». Если вы новичок в <code>git rebase</code>, наши мейнтейнеры помогут вам подготовить PR.</p>
+    
+    <h3>2. Meaningful Commits</h3>
+    <p>Мы используем <b>Conventional Commits</b>:</p>
+    <ul style="list-style: none; padding: 0;">
+        <li><code>feat:</code> — новый функционал</li>
+        <li><code>fix:</code> — исправление ошибок</li>
+        <li><code>refactor:</code> — оптимизация кода</li>
+    </ul>
+</section>
 
 <footer>
-    <p>&copy; 2026 Моя Компания. Все права защищены.</p>
+    <p>“Amplify working with Source SDK and open-source projects.”</p>
+    <p>&copy; 2024 Cold Source Organization. Все права защищены.</p>
 </footer>
 
 </body>
